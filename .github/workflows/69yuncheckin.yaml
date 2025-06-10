@@ -26,15 +26,15 @@ jobs:
       - name: Run 69yun.py
         id: run_script  # 添加一个 ID，方便后续步骤引用
         env:
-          DOMAIN: ${{ secrets.DOMAIN }}
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          DOMAIN: ${{ https://69yun69.com }}
+          BOT_TOKEN: ${{ 7980851279:AAHQEw5i5LfRLAQbV92i2OEzXWQifE6tbPc }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
-          GMAIL_SENDER_EMAIL: ${{ secrets.GMAIL_SENDER_EMAIL }}
+          GMAIL_SENDER_EMAIL: ${{ jack1989ssss@gmail.com }}
           GMAIL_SENDER_PASSWORD: ${{ secrets.GMAIL_SENDER_PASSWORD }}
           GMAIL_RECEIVER_EMAIL: ${{ secrets.GMAIL_RECEIVER_EMAIL }}
-          USER1: ${{ secrets.USER1 }}
-          PASS1: ${{ secrets.PASS1 }}
-          C_EMAIL1: ${{ secrets.C_EMAIL1 }}
+          USER1: ${{ 82167742@qq.com }}
+          PASS1: ${{ snfjwfg2 }}
+          C_EMAIL1: ${{ 82167742@qq.com }}
           USER2: ${{ secrets.USER2 }}
           PASS2: ${{ secrets.PASS2 }}
           C_EMAIL2: ${{ secrets.C_EMAIL2 }}
