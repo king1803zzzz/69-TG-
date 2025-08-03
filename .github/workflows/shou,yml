@@ -10,29 +10,35 @@ jobs:
   list_env_vars:
     runs-on: ubuntu-latest
 
-    # ⚠️ 关键点：你需要在这个 jobs 或 steps 级别设置那些你想要查看的变量和 secrets
-    # 否则，Python脚本就不会看到它们。
-    # 例如，如果你的 Cloudflare Worker 的环境变量是 SECRET_DOMAIN, SECRET_USER, SECRET_PASS
-    # 你需要通过 env: 块将它们作为工作流环境变量暴露出来。
+    # 这是关键部分：在此处将你的 GitHub Secrets 映射为工作流的环境变量
+    # 只有在这里列出的变量，Python脚本才能在运行时读取到。
     env:
-      # 这是把你仓库里设置的 Secrets 映射到工作流的环境变量中
-      # 只有这样，Python脚本才能通过 os.environ 访问到它们。
-      # 请将 YOUR_... 替换为你在 GitHub 仓库 Secrets 中实际配置的名称。
+      # 全局配置
       DOMAIN: ${{ secrets.DOMAIN }}
-      USER: ${{ secrets.USER }}
-      PASS: ${{ secrets.PASS }}
-      TGTOKEN: ${{ secrets.TGTOKEN }}
-      TGID: ${{ secrets.TGID }}
-      # 多个账号的配置
-      DOMAIN1: ${{ secrets.DOMAIN1 }}
+      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      CHAT_ID: ${{ secrets.CHAT_ID }}
+      GMAIL_SENDER_EMAIL: ${{ secrets.GMAIL_SENDER_EMAIL }}
+      GMAIL_SENDER_PASSWORD: ${{ secrets.GMAIL_SENDER_PASSWORD }}
+      GMAIL_RECEIVER_EMAIL: ${{ secrets.GMAIL_RECEIVER_EMAIL }}
+
+      # 第一个账号
       USER1: ${{ secrets.USER1 }}
       PASS1: ${{ secrets.PASS1 }}
-      TGTOKEN1: ${{ secrets.TGTOKEN1 }}
-      TGID1: ${{ secrets.TGID1 }}
-      # ... 依此类推，把所有你 Cloudflare Worker 用到的环境变量都列在这里
-      # ZH2: ${{ secrets.ZH2 }}
-      # MM2: ${{ secrets.MM2 }}
-      # TGID2: ${{ secrets.TGID2 }}
+      C_EMAIL1: ${{ secrets.C_EMAIL1 }} # 可选
+
+      # 第二个账号
+      USER2: ${{ secrets.USER2 }}
+      PASS2: ${{ secrets.PASS2 }}
+      C_EMAIL2: ${{ secrets.C_EMAIL2 }} # 可选
+
+      # 如果有更多账号，请在此处继续添加，例如：
+      # USER3: ${{ secrets.USER3 }}
+      # PASS3: ${{ secrets.PASS3 }}
+      # C_EMAIL3: ${{ secrets.C_EMAIL3 }}
+
+      # 建议：你可以通过循环来生成更多账号的映射，例如 for i in $(seq 3 10); do echo "USER$i: \${{ secrets.USER$i }}"; done
+      # 但在 YAML 中直接写出是最清晰的，特别是如果你账号不多。
+      # 如果账号很多，可以考虑用 matrix 策略或更复杂的 env 定义来简化。
 
     steps:
     - name: Checkout repository
@@ -41,7 +47,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.x'
+        python-version: '3.x' # 确保使用兼容的Python版本
 
     - name: Run Python script to list all environment variables
       run: python list_all_env_vars.py
